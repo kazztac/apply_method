@@ -3,7 +3,14 @@ name = "apply_method"
 version = "0.1.0"
 authors = ["kazztac <42577573+kazztac@users.noreply.github.com>"]
 edition = "2018"
+license = "MIT or Apache-2.0"
+description = "Allows you to apply any function given as a parameter to the object."
+readme = "README.md"
+repository = "https://github.com/kazztac/apply_method"
+categories = [ "rust-patterns" ]
+keywords = ["apply", "pattern", "utility"]
 
-# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+[badges]
+travis-ci = { repository = "kazztac/apply_method" }
 
 [dependencies]
