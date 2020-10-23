@@ -8,6 +8,7 @@
 /// # Examples
 ///
 /// ```
+/// use apply_method::*;
 /// #[derive(Debug, PartialEq)]
 /// struct Dog {
 ///     name: String,
@@ -33,6 +34,8 @@ pub trait Applicable {
     /// # Examples
     ///
     /// ```
+    /// use apply_method::*;
+    /// use std::path::PathBuf;
     /// let mut exact_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     /// exact_path.push("src/lib.rs");
     /// let path = PathBuf::from(env!("CARGO_MANIFEST_DIR")).apply(|it| it.push("src/lib.rs"));
@@ -40,6 +43,8 @@ pub trait Applicable {
     /// ```
     ///
     /// ```
+    /// use apply_method::*;
+    /// use std::path::PathBuf;
     /// let mut exact_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     /// exact_path.push("src/lib.rs");
     /// let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
@@ -57,6 +62,8 @@ pub trait Applicable {
     /// # Example
     ///
     /// ```
+    /// use apply_method::*;
+    /// use std::path::PathBuf;
     /// let mut exact_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     /// exact_path.push("src/lib.rs");
     /// let path =
@@ -74,6 +81,8 @@ pub trait Applicable {
     /// # Example
     ///
     /// ```
+    /// use apply_method::*;
+    /// use std::path::PathBuf;
     /// let mut exact_path = PathBuf::from(env!("CARGO_MANIFEST_DIR"));
     /// exact_path.push("src");
     /// exact_path.push("lib.rs");
