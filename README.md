@@ -1,4 +1,4 @@
-# Apply Method
+# Apply Method [![Build Status](https://travis-ci.com/kazztac/apply_method.svg?branch=master)](https://travis-ci.com/kazztac/apply_method)
 
 ## Overview
 
