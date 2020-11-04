@@ -53,9 +53,9 @@ pub trait Applicable {
     /// assert_eq!(path, exact_path);
     /// ```
     ///
-    fn apply<F>(self, f: F) -> Self
+    fn apply<F, R>(self, f: F) -> Self
     where
-        F: FnOnce(&mut Self);
+        F: FnOnce(&mut Self) -> R;
 
     /// Apply the function with one parameter given as a parameter to self.
     ///
@@ -72,9 +72,9 @@ pub trait Applicable {
     ///
     /// ```
     ///
-    fn apply_with_param<F, P>(self, f: F, p: P) -> Self
+    fn apply_with_param<F, P, R>(self, f: F, p: P) -> Self
     where
-        F: FnOnce(&mut Self, P);
+        F: FnOnce(&mut Self, P) -> R;
 
     /// Apply apply_with_param repeatedly to multiple parameters.
     ///
@@ -90,33 +90,33 @@ pub trait Applicable {
     ///     .apply_with_params(PathBuf::push, vec!["src", "lib.rs"]);
     /// assert_eq!(path, exact_path);
     /// ```
-    fn apply_with_params<F, P>(self, f: F, p: Vec<P>) -> Self
+    fn apply_with_params<F, P, R>(self, f: F, p: Vec<P>) -> Self
     where
-        F: Fn(&mut Self, P);
+        F: Fn(&mut Self, P) -> R;
 }
 
 impl<T> Applicable for T {
-    fn apply<F>(self, f: F) -> Self
+    fn apply<F, R>(self, f: F) -> Self
     where
-        F: FnOnce(&mut Self),
+        F: FnOnce(&mut Self) -> R,
     {
         let mut receiver = self;
         f(&mut receiver);
         receiver
     }
 
-    fn apply_with_param<F, P>(self, f: F, p: P) -> Self
+    fn apply_with_param<F, P, R>(self, f: F, p: P) -> Self
     where
-        F: FnOnce(&mut Self, P),
+        F: FnOnce(&mut Self, P) -> R,
     {
         let mut receiver = self;
         f(&mut receiver, p);
         receiver
     }
 
-    fn apply_with_params<F, P>(self, f: F, p: Vec<P>) -> Self
+    fn apply_with_params<F, P, R>(self, f: F, p: Vec<P>) -> Self
     where
-        F: Fn(&mut Self, P),
+        F: Fn(&mut Self, P) -> R,
     {
         let mut receiver = self;
         for param in p {
@@ -129,6 +129,7 @@ impl<T> Applicable for T {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use std::collections::HashMap;
     use std::path::PathBuf;
 
     #[test]
@@ -187,5 +188,16 @@ mod tests {
         let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
             .apply_with_params(PathBuf::push, vec!["src", "lib.rs"]);
         assert_eq!(path, exact_path);
+    }
+
+    #[test]
+    fn test_apply_non_unit_return_method_case() {
+        let mut exact_map = HashMap::new();
+        exact_map.insert(1, "one");
+        exact_map.insert(2, "two");
+        let map = HashMap::new()
+            .apply(|it| it.insert(1, "one"))
+            .apply(|it| it.insert(2, "two"));
+        assert_eq!(map, exact_map);
     }
 }
